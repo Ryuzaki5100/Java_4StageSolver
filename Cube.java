@@ -836,6 +836,9 @@ public class Cube implements Cloneable {
         Cube source = new Cube(this);
         Cube destination = new Cube();
 
+        if (sm.mask(source).equals(sm.mask(destination)))
+            return "";
+
         class Temp {
             final Cube c;
             final String s;
@@ -939,44 +942,44 @@ public class Cube implements Cloneable {
 
 
     public static ArrayList<String> solveCube(Cube c, int stages) {
-    if (stages > 4 || stages < 2)
-        return null;
+        if (stages > 4 || stages < 2)
+            return null;
 
-    StringBuilder solution = new StringBuilder();
+        StringBuilder solution = new StringBuilder();
 
-    for (int i = 0; i < stages; i++) {
-        String sol = c.solveStage(Cube.stagedMoveRestrictions[stages][i], Cube.maskStages[stages][i]);
-        System.out.println(Cube.getAlgorithm(sol));
-        c = Cube.execute(c, sol);
-        solution.append(sol);
+        for (int i = 0; i < stages; i++) {
+            String sol = c.solveStage(Cube.stagedMoveRestrictions[stages][i], Cube.maskStages[stages][i]);
+            System.out.println(Cube.getAlgorithm(sol));
+            c = Cube.execute(c, sol);
+            solution.append(sol);
+        }
+
+        return Cube.getAlgorithm(solution.toString());
     }
 
-    return Cube.getAlgorithm(solution.toString());
-}
+    @Override
+    public String toString() {
+        return "Cube{\n" +
+                "edge=" + edge.toString() +
+                ",\ncorner=" + corner.toString() +
+                "\n}";
+    }
 
-@Override
-public String toString() {
-    return "Cube{\n" +
-            "edge=" + edge.toString() +
-            ",\ncorner=" + corner.toString() +
-            "\n}";
-}
+    public Edge getEdge() {
+        return edge;
+    }
 
-public Edge getEdge() {
-    return edge;
-}
+    public void setEdge(Edge edge) {
+        this.edge = edge;
+    }
 
-public void setEdge(Edge edge) {
-    this.edge = edge;
-}
+    public Corner getCorner() {
+        return corner;
+    }
 
-public Corner getCorner() {
-    return corner;
-}
-
-public void setCorner(Corner corner) {
-    this.corner = corner;
-}
+    public void setCorner(Corner corner) {
+        this.corner = corner;
+    }
 }
 
 // U2 L2 F R D R F R F' L' B U2 F R2 L2 F' U2 B L2 B
